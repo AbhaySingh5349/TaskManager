@@ -1,4 +1,4 @@
-package com.example.taskmanager.ROOMdatabase
+package com.example.taskmanager.ROOMdatabase.models
 
 enum class PriorityModelClass {
     HIGH,

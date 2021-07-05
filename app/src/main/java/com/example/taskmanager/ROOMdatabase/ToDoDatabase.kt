@@ -2,6 +2,7 @@ package com.example.taskmanager.ROOMdatabase
 
 import android.content.Context
 import androidx.room.*
+import com.example.taskmanager.ROOMdatabase.models.ToDoTable
 
 @Database(entities = [ToDoTable:: class], version = 1, exportSchema = false)
 @TypeConverters(Converter:: class)
