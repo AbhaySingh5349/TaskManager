@@ -12,10 +12,12 @@ import com.example.taskmanager.ROOMdatabase.models.PriorityModelClass
 import com.example.taskmanager.ROOMdatabase.models.ToDoTable
 import com.example.taskmanager.ROOMdatabase.viewmodel.ToDoViewModel
 import kotlinx.android.synthetic.main.fragment_add_item.*
+import kotlinx.android.synthetic.main.fragment_add_item.view.*
 
 class AddItemFragment : Fragment() {
 
     private val toDoViewModel : ToDoViewModel by viewModels()
+    private val sharedViewModel : SharedViewModel by viewModels() // these methods were to be used again while updating, so we created a common model
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -25,6 +27,8 @@ class AddItemFragment : Fragment() {
         var view = inflater.inflate(R.layout.fragment_add_item, container, false)
 
         setHasOptionsMenu(true) // linking menu with fragment
+
+        view.prioritiesSpinner.onItemSelectedListener = sharedViewModel.listener // listener for adding color to spinner
 
         return view;
     }
@@ -45,11 +49,11 @@ class AddItemFragment : Fragment() {
         val prioritySpinner = prioritiesSpinner.selectedItem.toString()
         val description = descriptionTextInputEditText.text.toString()
 
-        if(validateData(title,description)){
+        if(sharedViewModel.validateData(title,description)){
             val newData = ToDoTable(
                 0,
                 title,
-                parsePriority(prioritySpinner),
+                sharedViewModel.parsePriority(prioritySpinner),
                 description
             )
             toDoViewModel.insertData(newData)
@@ -59,22 +63,6 @@ class AddItemFragment : Fragment() {
             findNavController().navigate(R.id.action_addItemFragment_to_toDoListFragment)
         }else{
             Toast.makeText(requireContext(),"Enter All Fields",Toast.LENGTH_LONG).show()
-        }
-    }
-
-    private fun validateData(title: String, description: String) : Boolean{
-        if(TextUtils.isEmpty(title) || TextUtils.isEmpty(description)){
-            return false
-        }
-        return true
-    }
-
-    private fun parsePriority(prioritySpinner: String): PriorityModelClass {
-        return when(prioritySpinner){
-            "High Priority" -> {PriorityModelClass.HIGH}
-            "Medium Priority" -> {PriorityModelClass.MEDIUM}
-            "LOW Priority" -> {PriorityModelClass.LOW}
-            else -> {PriorityModelClass.LOW}
         }
     }
 }
