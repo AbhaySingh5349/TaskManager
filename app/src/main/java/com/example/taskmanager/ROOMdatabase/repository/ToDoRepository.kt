@@ -14,4 +14,16 @@ class ToDoRepository(private val daoInterface: DAOInterface) {
     suspend fun insertData(toDoTable: ToDoTable){
         daoInterface.insertData(toDoTable)
     }
+
+    suspend fun updateData(toDoTable: ToDoTable){
+        daoInterface.updateData(toDoTable)
+    }
+
+    suspend fun deleteData(toDoTable: ToDoTable){
+        daoInterface.deleteData(toDoTable)
+    }
+
+    suspend fun deleteAll(){
+        daoInterface.deleteAll()
+    }
 }
